@@ -6,7 +6,9 @@ const hamMenu = document.querySelector('.menu')
 const mobileMenu = document.querySelector('.mobile-menu')
 
 const menuCarrito = document.querySelector('.navbar-shopping-cart')
+const productDetailCloseIcon = document.querySelector('.product-detail-close')
 const shoppingCartContainer = document.querySelector('#shoppingCartContainer')
+const productDetailContainer = document.querySelector('#productDetail')
 
 const cardsContainer = document.querySelector('.cards-container')
 
@@ -46,6 +48,8 @@ productList.push({
 menuEmail.addEventListener('click', toggleDesktopMenu)
 hamMenu.addEventListener('click', toggleMobileMenu)
 menuCarrito.addEventListener('click', toggleCarritoAside)
+productDetailCloseIcon.addEventListener('click', closeProductDetailAside)
+
 
 
 renderProducts(productList)
@@ -64,6 +68,7 @@ function toggleDesktopMenu(){
 
 // menu mobile
 function toggleMobileMenu(){
+    closeProductDetailAside()
     const isAsideMenuClosed = shoppingCartContainer.classList.contains('inactive')
     if(!isAsideMenuClosed){
         shoppingCartContainer.classList.add('inactive')
@@ -76,6 +81,11 @@ function toggleMobileMenu(){
 function toggleCarritoAside(){
     const isMobileMenuClosed = mobileMenu.classList.contains('inactive')
     const isDesktopMenuClosed = desktopMenu.classList.contains('inactive')
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive')
+
+    if(!isProductDetailClosed){
+        productDetailContainer.classList.add('inactive')
+    }
     if(!isMobileMenuClosed){
         mobileMenu.classList.add('inactive')
     }
@@ -105,7 +115,7 @@ function toggleCarritoAside(){
             </div>
           </div> */
 function renderProducts(arr){
-    for(product of productList){
+    for(product of arr){
 
         // primero creamos los elementos y luego le agregamos propiedades
         // insertar los childs en el
@@ -114,6 +124,8 @@ function renderProducts(arr){
     
         const img = document.createElement('img')
         img.setAttribute('src', product.image)
+        // listener imagenes
+        img.addEventListener('click', openProductDetailAside)
     
         const productInfo = document.createElement('div')
         productInfo.classList.add('product-info')
@@ -144,6 +156,15 @@ function renderProducts(arr){
     
         cardsContainer.appendChild(productCard)
     }
+}
+
+function openProductDetailAside(){
+    shoppingCartContainer.classList.add('inactive')
+    productDetailContainer.classList.remove('inactive')
+}
+
+function closeProductDetailAside(){
+    productDetailContainer.classList.add('inactive')
 }
 
 
